@@ -147,10 +147,12 @@ AppData.prototype.getAddExpenses = function () {
     });
  };
 AppData.prototype.getAddIncome = function () { 
+  const _this = this;
+  
   additionalIncomeItem.forEach(function (item) { 
     let itemValue = item.value.trim();
     if (itemValue !=='') {
-      appData.addIncome.push(itemValue);
+      _this.addIncome.push(itemValue);
     }
    });
  
@@ -243,30 +245,32 @@ AppData.prototype.reset = function() {
    depositCheck.checked = false;
 };
 
+AppData.prototype.eventsListeners = function() {
+  start.addEventListener('click', appData.start.bind(appData));
+  expensesPlus.addEventListener('click', appData.addExpensesBlock);
+  incomePlus.addEventListener('click', appData.addIncomeBlock);
+  salaryAmount.addEventListener('keyup', appData.check);
+  cancel.addEventListener('click', appData.reset.bind(appData));
+  periodSelect.addEventListener('change', function (event) {
+    periodAmount.innerHTML = periodSelect.value;
+  });
+  let addExp = [];
+  for (let i = 0; i < appData.addExpenses.length; i ++) {
+    let element = appData.addExpenses[i].trim();
+    element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
+
+    addExp.push(element);
+  }
+
+};
 const appData = new AppData();
+AppData.prototype.eventsListeners();
 
 console.log(appData);
 
 
-start.addEventListener('click', appData.start.bind(appData));
-expensesPlus.addEventListener('click', appData.addExpensesBlock);
-incomePlus.addEventListener('click', appData.addIncomeBlock);
-salaryAmount.addEventListener('keyup', appData.check);
-cancel.addEventListener('click', appData.reset.bind(appData));
-
-periodSelect.addEventListener('change', function (event) {
-  periodAmount.innerHTML = periodSelect.value;
-});
 
 
-
-let addExp = [];
-for (let i = 0; i < appData.addExpenses.length; i ++) {
-  let element = appData.addExpenses[i].trim();
-  element = element.charAt(0).toUpperCase() + element.substring(1).toLowerCase();
-
-  addExp.push(element);
-}
 
 
 
